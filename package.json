@@ -7,11 +7,16 @@
     "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["node", "bot", "job"],
+  "keywords": [
+    "node",
+    "bot",
+    "job"
+  ],
   "author": "Cosmo",
   "license": "ISC",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
+    "nodemailer": "^5.1.1",
     "puppeteer": "^1.12.2",
     "request": "^2.88.0"
   },
