@@ -2,30 +2,44 @@ const puppeteer = require('puppeteer');
 var cheerio = require('cheerio');
 
 async function consulta() {
+  const url =
+    'https://br.linkedin.com/jobs/search?keywords=desenvolvedor&location=Recife%20e%20Regi%C3%A3o&trk=public_jobs_jobs-search-bar_search-submit&redirect=false&position=1&pageNum=0';
+
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
-  await page.goto('https://br.linkedin.com/jobs/search?keywords=Desenvolvedor&location=Recife%20e%20Regi%C3%A3o%2C%20Brasil&locationId=br%3A6286&pageNum=0&position=1');
+  await page.goto(url);
 
   let html = await page.content();
   var $ = cheerio.load(html);
 
   let lista = [];
 
-  $('.jobs-search-result-item').each(function (index, element) {
+  $('.result-card').each(function(index, element) {
     let obj = {};
-    obj.titulo = $(element).find('.listed-job-posting__title').text();
-    obj.empresa = $(element).find('.listed-job-posting__company').text();
-    obj.local = $(element).find('.listed-job-posting__location').text();
-    obj.tempo = $(element).find('.posted-time-ago__text').text();
-    obj.resumo = $(element).find('.listed-job-posting__description').text();
-    obj.url = $(element).find('.listed-job-posting--is-link').attr('href');
+    obj.titulo = $(element)
+      .find('.screen-reader-text')
+      .text();
+    obj.empresa = $(element)
+      .find('.result-card__subtitle')
+      .text();
+    obj.local = $(element)
+      .find('.job-result-card__location')
+      .text();
+    obj.tempo = $(element)
+      .find('.job-result-card__listdate')
+      .text();
+    obj.resumo = $(element)
+      .find('.job-result-card__snippet')
+      .text();
+    obj.url = $(element)
+      .find('.result-card__full-card-link')
+      .attr('href');
     lista.push(obj);
   });
   browser.close();
   return lista;
-
 }
 
 module.exports = {
   consulta
-}
+};
