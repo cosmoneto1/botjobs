@@ -9,8 +9,8 @@ async function main(html, emails) {
     secure: false, // true for 465, false for other ports
     auth: {
       user: 'tbot@bol.com.br',
-      pass: 'Zbot1000%'
-    }
+      pass: 'Zbot1000%',
+    },
   });
 
   // setup email data with unicode symbols
@@ -19,19 +19,15 @@ async function main(html, emails) {
     to: emails,
     subject: 'BotJob Vagas ',
     text: 'BotJob',
-    html: html
+    html: html,
   };
 
   let info = await transporter.sendMail(mailOptions);
-
-  // console.log("Message sent: %s", info.messageId);
-
-  // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
 }
 
 function parseHtml(lista) {
   let list = '';
-  lista.map(item => {
+  lista.map((item) => {
     let template = `
            <p><b>${item.titulo}</b></p>
            <p>${item.empresa} - ${item.local} - ${item.tempo}</p>           
@@ -52,5 +48,5 @@ function send(listaVagas, email) {
 }
 
 module.exports = {
-  send
+  send,
 };
